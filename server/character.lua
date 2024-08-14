@@ -1,7 +1,8 @@
 local config = require 'config.server'
 local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
-local starterItems = require 'config.shared'.starterItems
+local sharedConfig = require 'config.shared'
+local starterItems = sharedConfig.starterItems
 
 ---@param license2 string
 ---@param license? string
@@ -9,24 +10,9 @@ local function getAllowedAmountOfCharacters(license2, license)
     return config.characters.playersNumberOfCharacters[license2] or license and config.characters.playersNumberOfCharacters[license] or config.characters.defaultNumberOfCharacters
 end
 
----@param source Source
-local function giveStarterItems(source)
-    if GetResourceState('ox_inventory') == 'missing' then return end
-    while not exports.ox_inventory:GetInventory(source) do
-        Wait(100)
-    end
-    for i = 1, #starterItems do
-        local item = starterItems[i]
-        if item.metadata and type(item.metadata) == 'function' then
-            exports.ox_inventory:AddItem(source, item.name, item.amount, item.metadata(source))
-        else
-            exports.ox_inventory:AddItem(source, item.name, item.amount, item.metadata)
-        end
-    end
-end
 
 lib.callback.register('qbx_core:server:getCharacters', function(source)
-    local license2, license = GetPlayerIdentifierByType(source, 'license2'), GetPlayerIdentifierByType(source, 'license')
+    local license2, license = GetPlayerIdentifierByType(source, sharedConfig.licenseType2), GetPlayerIdentifierByType(source, sharedConfig.licenseType)
     return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
 end)
 

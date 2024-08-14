@@ -3,6 +3,7 @@ require 'bridge.qb.server.player'
 local functions = {}
 
 local createQbExport = require 'bridge.qb.shared.export-function'
+local sharedConfig   = require 'config.shared'
 
 ---@deprecated use the GetEntityCoords and GetEntityHeading natives directly
 functions.GetCoords = function(entity)
@@ -57,11 +58,11 @@ function functions.CreateVehicle(source, model, _, coords, warp)
     return NetworkGetEntityFromNetworkId(netId)
 end
 
----@deprecated No replacement. See https://overextended.dev/ox_inventory/Functions/Client#useitem
+---@deprecated No replacement. 
 ---@param source Source
 ---@param item string name
 function functions.UseItem(source, item) -- luacheck: ignore
-    assert(GetResourceState('qb-inventory') ~= 'started', 'qb-inventory is not compatible with qbx_core. use ox_inventory instead')
+  assert(GetResourceState('qb-inventory') ~= 'started', 'qb-inventory is not compatible with qbx_core. use clean_inventory instead')
 end
 
 local discordLink = GetConvar('qbx:discordlink', 'discord.gg/qbox')
@@ -101,11 +102,11 @@ functions.IsLicenseInUse = function(license)
     local players = GetPlayers()
 
     for _, player in pairs(players) do
-        local plyLicense2 = GetPlayerIdentifierByType(player --[[@as string]], 'license2')
-        local plyLicense = GetPlayerIdentifierByType(player --[[@as string]], 'license')
-        if plyLicense2 == license or plyLicense == license then
-            return true
-        end
+      local plyLicense2 = GetPlayerIdentifierByType(player --[[@as string]], sharedConfig.licenseType2)
+      local plyLicense = GetPlayerIdentifierByType(player --[[@as string]], sharedConfig.licenseType)
+      if plyLicense2 == license or plyLicense == license then
+        return true
+      end
     end
 
     return false
@@ -113,62 +114,28 @@ end
 
 -- Utility functions
 
----@deprecated use https://overextended.dev/ox_inventory/Functions/Server#search
+---@deprecated use 
 functions.HasItem = function(source, items, amount) -- luacheck: ignore
-    amount = amount or 1
-    local count = exports.ox_inventory:Search(source, 'count', items)
-    if type(items) == 'table' and type(count) == 'table' then
-        for _, v in pairs(count) do
-            if v < amount then
-                return false
-            end
-        end
-        return true
-    end
-    return count >= amount
+    -- CLEAN_INVENTORY_REQUIRED
+    return true 
 end
 
 ---@deprecated use qbx.getVehiclePlate from modules/lib.lua
 functions.GetPlate = qbx.getVehiclePlate
 
 -- Single add item
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
+---@deprecated make for clean_inventory.
 local function AddItem(itemName, item)
-    lib.print.warn(('%s invoked deprecated function AddItem. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
-    if type(itemName) ~= 'string' then
-        return false, 'invalid_item_name'
-    end
-
-    if qbCoreCompat.Shared.Items[itemName] then
-        return false, 'item_exists'
-    end
-
-    lib.print.warn(('New item %s added but not found in ox_inventory. Printing item data'):format(itemName))
-    lib.print.warn(item)
-    qbCoreCompat.Shared.Items[itemName] = item
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, 'success'
+  return true, 'success'
 end
 
 functions.AddItem = AddItem
 createQbExport('AddItem', AddItem)
 
 -- Single update item
----@deprecated incompatible with ox_inventory. Update ox_inventory item config instead.
+---@deprecated make this for clean_inventory.
 local function UpdateItem(itemName, item)
-    lib.print.warn(('%s invoked deprecated function UpdateItem. This is incompatible with ox_inventory'):format(GetInvokingResource() or 'unknown resource'))
-    if type(itemName) ~= 'string' then
-        return false, 'invalid_item_name'
-    end
-    if not qbCoreCompat.Shared.Items[itemName] then
-        return false, 'item_not_exists'
-    end
-    qbCoreCompat.Shared.Items[itemName] = item
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, 'success'
+  return true, 'success'
 end
 
 functions.UpdateItem = UpdateItem

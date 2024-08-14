@@ -1,5 +1,6 @@
 local config = require 'config.server'
-local defaultSpawn = require 'config.shared'.defaultSpawn
+local sharedConfig = require 'config.shared'
+local defaultSpawn = sharedConfig.defaultSpawn
 local logger = require 'modules.logger'
 local storage = require 'server.storage.main'
 local maxJobsPerPlayer = GetConvarInt('qbx:max_jobs_per_player', 1)
@@ -24,7 +25,7 @@ function Login(source, citizenid, newData)
     end
 
     if citizenid then
-        local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
+        local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType), GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType2)
         local playerData = storage.fetchPlayerEntity(citizenid)
         if playerData and (license2 == playerData.license or license == playerData.license) then
             return not not CheckPlayerData(source, playerData)
@@ -423,7 +424,7 @@ function CheckPlayerData(source, playerData)
     local Offline = true
     if source then
         playerData.source = source
-        playerData.license = playerData.license or GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
+        playerData.license = playerData.license or GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType) or GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType)
         playerData.name = GetPlayerName(source)
         Offline = false
     end
@@ -1039,7 +1040,7 @@ exports('SaveOffline', SaveOffline)
 ---@param source Source
 ---@param citizenid string
 function DeleteCharacter(source, citizenid)
-    local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license'), GetPlayerIdentifierByType(source --[[@as string]], 'license2')
+    local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType), GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType2)
     local result = storage.fetchPlayerEntity(citizenid).license
     if license == result or license2 == result then
         CreateThread(function()

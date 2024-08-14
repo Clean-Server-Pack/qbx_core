@@ -17,19 +17,9 @@ functions.GetCoords = function(entity) -- luacheck: ignore
     return vec4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
----@deprecated use https://overextended.dev/ox_inventory/Functions/Client#search
 functions.HasItem = function(items, amount)
-    amount = amount or 1
-    local count = exports.ox_inventory:Search('count', items)
-    if type(items) == 'table' and type(count) == 'table' then
-        for _, v in pairs(count) do
-            if v < amount then
-                return false
-            end
-        end
-        return true
-    end
-    return count >= amount
+  -- CLEAN_INVENTORY_REQUIRE
+  return true 
 end
 
 -- Utility

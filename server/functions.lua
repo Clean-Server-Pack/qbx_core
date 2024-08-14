@@ -1,5 +1,5 @@
 local serverConfig = require 'config.server'.server
-local positionConfig = require 'config.shared'.notifyPosition
+local sharedConfig = require 'config.shared'
 local logger = require 'modules.logger'
 local loggingConfig = require 'config.server'.logging
 local storage = require 'server.storage.main'
@@ -307,7 +307,7 @@ exports('GetPermission', GetPermission)
 ---@param source Source
 ---@return boolean
 function IsOptin(source)
-    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
+    local license = GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType2) or GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType)
     if not license or not IsPlayerAceAllowed(source --[[@as string]], 'admin') then return false end
     local player = GetPlayer(source)
     return player.PlayerData.optin
@@ -318,7 +318,7 @@ exports('IsOptin', IsOptin)
 ---Opt in or out of admin reports
 ---@param source Source
 function ToggleOptin(source)
-    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license2') or GetPlayerIdentifierByType(source --[[@as string]], 'license')
+    local license = GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType2) or GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType)
     if not license or not IsPlayerAceAllowed(source --[[@as string]], 'admin') then return end
     local player = GetPlayer(source)
     player.PlayerData.optin = not player.PlayerData.optin
@@ -332,8 +332,8 @@ exports('ToggleOptin', ToggleOptin)
 ---@return boolean
 ---@return string? playerMessage
 function IsPlayerBanned(source)
-    local license = GetPlayerIdentifierByType(source --[[@as string]], 'license')
-    local license2 = GetPlayerIdentifierByType(source --[[@as string]], 'license2')
+    local license = GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType)
+    local license2 = GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType2)
     local result = license2 and storage.fetchBan({ license = license2 })
 
     if not result then
@@ -373,7 +373,7 @@ function Notify(source, text, notifyType, duration, subTitle, notifyPosition, no
     else
         description = text
     end
-    local position = notifyPosition or positionConfig
+    local position = notifyPosition or 'top-right'
 
     TriggerClientEvent('ox_lib:notify', source, {
         id = title,
@@ -410,7 +410,7 @@ local function ExploitBan(playerId, origin)
     local success, errorResult = pcall(
         storage.insertBan({
             name = name,
-            license = GetPlayerIdentifierByType(playerId --[[@as string]], 'license2') or GetPlayerIdentifierByType(playerId --[[@as string]], 'license'),
+            license = GetPlayerIdentifierByType(playerId --[[@as string]], sharedConfig.licenseType2) or GetPlayerIdentifierByType(playerId --[[@as string]], sharedConfig.licenseType),
             discordId = GetPlayerIdentifierByType(playerId --[[@as string]], 'discord'),
             ip = GetPlayerIdentifierByType(playerId --[[@as string]], 'ip'),
             reason = origin,

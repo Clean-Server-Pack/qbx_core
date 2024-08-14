@@ -30,6 +30,8 @@ end
 local function getBanId(request)
     if request.license then
         return 'license', request.license
+    elseif request.steam then
+        return 'steam', request.steam
     elseif request.discordId then
         return 'discord', request.discordId
     elseif request.ip then

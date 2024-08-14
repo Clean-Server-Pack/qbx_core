@@ -1,6 +1,7 @@
 lib.print.warn('This resource is still using the deprecated qbx_core utils!')
 lib.print.warn('If you are the author, please update to use the new lib module. If you are not, please tell them to update!')
 
+require 'config.shared'
 local isServer = IsDuplicityVersion()
 
 -- import lib without exposing it globally
@@ -8,6 +9,9 @@ local oldqbx = qbx
 require 'modules.lib'
 local qbx = qbx
 _ENV.qbx = oldqbx
+
+
+local sharedConfig   = require 'config.shared'
 
 ---@deprecated use the GetEntityCoords and GetEntityHeading natives directly
 ---Get the coords including the heading from an entity
@@ -201,8 +205,8 @@ if isServer then
         local players = GetPlayers()
 
         for _, player in pairs(players) do
-            local plyLicense2 = GetPlayerIdentifierByType(player --[[@as string]], 'license2')
-            local plyLicense = GetPlayerIdentifierByType(player --[[@as string]], 'license')
+            local plyLicense2 = GetPlayerIdentifierByType(player --[[@as string]], sharedConfig.licenseType)
+            local plyLicense = GetPlayerIdentifierByType(player --[[@as string]], sharedConfig.licenseType)
             if plyLicense2 == license or plyLicense == license then
                 return true
             end

@@ -60,44 +60,25 @@ return {
     ---@alias ColumnName string
     ---@type [TableName, ColumnName][]
     characterDataTables = {
-        {'properties', 'owner'},
-        {'apartments', 'citizenid'},
-        {'bank_accounts_new', 'id'},
         {'playerskins', 'citizenid'},
-        {'player_houses', 'citizenid'},
-        {'player_mails', 'citizenid'},
-        {'player_outfits', 'citizenid'},
-        {'player_vehicles', 'citizenid'},
         {'player_groups', 'citizenid'},
         {'players', 'citizenid'},
-        {'npwd_calls', 'identifier'},
-        {'npwd_darkchat_channel_members', 'user_identifier'},
-        {'npwd_marketplace_listings', 'identifier'},
-        {'npwd_messages_participants', 'participant'},
-        {'npwd_notes', 'identifier'},
-        {'npwd_phone_contacts', 'identifier'},
-        {'npwd_phone_gallery', 'identifier'},
-        {'npwd_twitter_profiles', 'identifier'},
-        {'npwd_match_profiles', 'identifier'},
     }, -- Rows to be deleted when the character is deleted
 
     server = {
-        pvp = true, -- Enable or disable pvp on the server (Ability to shoot other players)
-        closed = false, -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
-        closedReason = 'Server Closed', -- Reason message to display when people can't join the server
-        whitelist = false, -- Enable or disable whitelist on the server
-        whitelistPermission = 'admin', -- Permission that's able to enter the server when the whitelist is on
-        discord = '', -- Discord invite link
+        pvp                   = true, -- Enable or disable pvp on the server (Ability to shoot other players)
+        closed                = false, -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
+        closedReason          = 'Server Closed', -- Reason message to display when people can't join the server
+        whitelist             = false, -- Enable or disable whitelist on the server
+        whitelistPermission   = 'admin', -- Permission that's able to enter the server when the whitelist is on
+        discord               = 'discord.gg/dirkscripts', -- Discord invite link
         checkDuplicateLicense = true, -- Check for duplicate rockstar license on join
         ---@deprecated use cfg ACE system instead
         permissions = { 'god', 'admin', 'mod' }, -- Add as many groups as you want here after creating them in your server.cfg
     },
 
     characters = {
-        playersNumberOfCharacters = { -- Define maximum amount of player characters by rockstar license (you can find this license in your server's database in the player table)
-            ['license2:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'] = 5,
-        },
-
+        playersNumberOfCharacters = {},
         defaultNumberOfCharacters = 3, -- Define maximum amount of default characters (maximum 3 characters defined by default)
     },
 
