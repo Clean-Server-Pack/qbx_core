@@ -3,123 +3,123 @@ return {
 	['none'] = {
 		label = 'No Gang',
 		grades = {
-            [0] = {
-                name = 'Unaffiliated'
-            },
-        },
+      [0] = {
+        name = 'Unaffiliated'
+      },
+    },
 	},
 	['lostmc'] = {
 		label = 'The Lost MC',
 		grades = {
-            [0] = {
-                name = 'Recruit'
-            },
+      [0] = {
+        name = 'Recruit'
+      },
 			[1] = {
-                name = 'Enforcer'
-            },
+        name = 'Enforcer'
+      },
 			[2] = {
-                name = 'Shot Caller'
-            },
+        name = 'Shot Caller'
+      },
 			[3] = {
-                name = 'Boss',
-                isboss = true,
-                bankAuth = true
-            },
-        },
+        name = 'Boss',
+        isboss = true,
+        bankAuth = true
+      },
+    },
 	},
 	['ballas'] = {
 		label = 'Ballas',
 		grades = {
-            [0] = {
-                name = 'Recruit'
-            },
+      [0] = {
+        name = 'Recruit'
+      },
 			[1] = {
-                name = 'Enforcer'
-            },
+        name = 'Enforcer'
+      },
 			[2] = {
-                name = 'Shot Caller'
-            },
+        name = 'Shot Caller'
+      },
 			[3] = {
-                name = 'Boss',
-                isboss = true,
-                bankAuth = true
-            },
-        },
+        name = 'Boss',
+        isboss = true,
+        bankAuth = true
+      },
+    },
 	},
 	['vagos'] = {
 		label = 'Vagos',
 		grades = {
-            [0] = {
-                name = 'Recruit'
-            },
+      [0] = {
+        name = 'Recruit'
+      },
 			[1] = {
-                name = 'Enforcer'
-            },
+        name = 'Enforcer'
+      },
 			[2] = {
-                name = 'Shot Caller'
-            },
+        name = 'Shot Caller'
+      },
 			[3] = {
-                name = 'Boss',
-                isboss = true,
-                bankAuth = true
-            },
-        },
+        name = 'Boss',
+        isboss = true,
+        bankAuth = true
+      },
+    },
 	},
 	['cartel'] = {
 		label = 'Cartel',
 		grades = {
-            [0] = {
-                name = 'Recruit'
-            },
+      [0] = {
+        name = 'Recruit'
+      },
 			[1] = {
-                name = 'Enforcer'
-            },
+        name = 'Enforcer'
+      },
 			[2] = {
-                name = 'Shot Caller'
-            },
+        name = 'Shot Caller'
+      },
 			[3] = {
-                name = 'Boss',
-                isboss = true,
-                bankAuth = true
-            },
-        },
+        name = 'Boss',
+        isboss = true,
+        bankAuth = true
+      },
+    },
 	},
 	['families'] = {
 		label = 'Families',
 		grades = {
-            [0] = {
-                name = 'Recruit'
-            },
+      [0] = {
+        name = 'Recruit'
+      },
 			[1] = {
-                name = 'Enforcer'
-            },
+        name = 'Enforcer'
+      },
 			[2] = {
-                name = 'Shot Caller'
-            },
+        name = 'Shot Caller'
+      },
 			[3] = {
-                name = 'Boss',
-                isboss = true,
-                bankAuth = true
-            },
-        },
+        name = 'Boss',
+        isboss = true,
+        bankAuth = true
+      },
+    },
 	},
 	['triads'] = {
 		label = 'Triads',
 		grades = {
-            [0] = {
-                name = 'Recruit'
-            },
+      [0] = {
+        name = 'Recruit'
+      },
 			[1] = {
-                name = 'Enforcer'
-            },
+        name = 'Enforcer'
+      },
 			[2] = {
-                name = 'Shot Caller'
-            },
+        name = 'Shot Caller'
+      },
 			[3] = {
-                name = 'Boss',
-                isboss = true,
-                bankAuth = true
-            },
-        },
+        name = 'Boss',
+        isboss = true,
+        bankAuth = true
+      },
+    },
 	}
 }

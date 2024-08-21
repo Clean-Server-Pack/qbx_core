@@ -1,16 +1,12 @@
-lib.versionCheck('Qbox-project/qbx_core')
 local startupErrors, errorMessage
-if not lib.checkDependency('ox_lib', '3.20.0', true) then
-  startupErrors, errorMessage = true, 'ox_lib version 3.20.0 or higher is required'
-end
 
 if startupErrors then
-    lib.print.error('Startup errors detected, shutting down server...')
-    ExecuteCommand('quit immediately')
-    for _ = 1, 100 do
-        lib.print.error(errorMessage)
-    end
-    error(errorMessage)
+  lib.print.error('Startup errors detected, shutting down server...')
+  ExecuteCommand('quit immediately')
+  for _ = 1, 100 do
+    lib.print.error(errorMessage)
+  end
+  error(errorMessage)
 end
 
 ---@type 'strict'|'relaxed'|'inactive'
@@ -32,14 +28,14 @@ QBX.UsableItems = {}
 
 ---@return table<string, Vehicle>
 function GetVehiclesByName()
-    return QBX.Shared.Vehicles
+  return QBX.Shared.Vehicles
 end
 
 exports('GetVehiclesByName', GetVehiclesByName)
 
 ---@return table<number, Vehicle>
 function GetVehiclesByHash()
-    return QBX.Shared.VehicleHashes
+  return QBX.Shared.VehicleHashes
 end
 
 exports('GetVehiclesByHash', GetVehiclesByHash)
@@ -53,7 +49,7 @@ exports('GetVehiclesByCategory', GetVehiclesByCategory)
 
 ---@return table<number, Weapon>
 function GetWeapons()
-    return QBX.Shared.Weapons
+  return QBX.Shared.Weapons
 end
 
 exports('GetWeapons', GetWeapons)
@@ -61,7 +57,7 @@ exports('GetWeapons', GetWeapons)
 ---@deprecated
 ---@return table<string, vector4>
 function GetLocations()
-    return QBX.Shared.Locations
+  return QBX.Shared.Locations
 end
 
 exports('GetLocations', GetLocations)
