@@ -762,7 +762,7 @@ else
       return vec3(coords.x, coords.y, groundZ)
     end
 
-    lib.print.verbose('Couldn\'t find Ground Z Coordinates given 3D Coordinates:', coords)
+    lib.print.warn('Couldn\'t find Ground Z Coordinates given 3D Coordinates:', coords)
     return coords
   end
 

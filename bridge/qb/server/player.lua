@@ -110,7 +110,7 @@ end
 
 ---@param citizenid string
 function playerObj.ForceDeleteCharacter(citizenid)
-    exports.qbx_core:DeleteCharacter(citizenid)
+  exports.qbx_core:DeleteCharacter(citizenid)
 end
 
 ---Generate unique values for player identifiers

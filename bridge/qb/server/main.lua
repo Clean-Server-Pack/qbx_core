@@ -113,7 +113,6 @@ AddEventHandler('qbx_core:server:onGangUpdate', function(gangName, gang)
 end)
 
 local createQbExport = require 'bridge.qb.shared.export-function'
-
 createQbExport('GetCoreObject', function()
   return qbCoreCompat
 end)

@@ -1,12 +1,13 @@
 -- Player load and unload handling
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    ShutdownLoadingScreenNui()
-    QBX.IsLoggedIn = true
+AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
+  QBX.IsLoggedIn = value
+  if GlobalState.PVPEnabled then
+    SetCanAttackFriendly(cache.ped, true, false)
+    NetworkSetFriendlyFireOption(true)
+  end
 
-    if GlobalState.PVPEnabled then
-        SetCanAttackFriendly(cache.ped, true, false)
-        NetworkSetFriendlyFireOption(true)
-    end
+  if not value then return; end 
+  TriggerEvent('QBCore:Client:OnPlayerLoaded')
 end)
 
 ---@param val PlayerData
@@ -16,16 +17,13 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     QBX.PlayerData = val
 end)
 
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-    QBX.IsLoggedIn = false
-end)
 
 ---@param value boolean
 AddStateBagChangeHandler('PVPEnabled', nil, function(bagName, _, value)
-    if bagName == 'global' then
-        SetCanAttackFriendly(cache.ped, value, false)
-        NetworkSetFriendlyFireOption(value)
-    end
+  if bagName == 'global' then
+    SetCanAttackFriendly(cache.ped, value, false)
+    NetworkSetFriendlyFireOption(value)
+  end
 end)
 
 -- Teleport Commands

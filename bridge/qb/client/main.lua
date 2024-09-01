@@ -64,7 +64,7 @@ function qbCoreCompat.Debug(_, obj)
 end
 
 local createQbExport = require 'bridge.qb.shared.export-function'
-
+  
 createQbExport('GetCoreObject', function()
     return qbCoreCompat
 end)

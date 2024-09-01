@@ -28,7 +28,8 @@ function Login(source, citizenid, newData)
     local license, license2 = GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType), GetPlayerIdentifierByType(source --[[@as string]], sharedConfig.licenseType2)
     local playerData = storage.fetchPlayerEntity(citizenid)
     if playerData and (license2 == playerData.license or license == playerData.license) then
-      return not not CheckPlayerData(source, playerData)
+      local boolean = not not CheckPlayerData(source, playerData)
+      return boolean
     else
       DropPlayer(tostring(source), locale('info.exploit_dropped'))
       logger.log({
@@ -45,7 +46,6 @@ function Login(source, citizenid, newData)
     player.Functions.Save()
     return true
   end
-
   return false
 end
 
@@ -554,7 +554,7 @@ function Logout(source)
   player.PlayerData.metadata.stress = playerState?.stress or player.PlayerData.metadata.stress
 
   TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
-  TriggerEvent('QBCore:Server:OnPlayerUnload', source)
+  Player(source).state:set('isLoggedIn', false, true)
 
   player.PlayerData.lastLoggedOut = os.time()
   player.Functions.Save()
@@ -965,6 +965,7 @@ function CreatePlayer(playerData, Offline)
   end)
 
   if not self.Offline then
+    print(('Player %s has been created'):format(self.PlayerData.name, self.PlayerData.source))
     QBX.Players[self.PlayerData.source] = self
     local ped = GetPlayerPed(self.PlayerData.source)
     lib.callback.await('qbx_core:client:setHealth', self.PlayerData.source, self.PlayerData.metadata.health)
@@ -973,6 +974,7 @@ function CreatePlayer(playerData, Offline)
     GlobalState.PlayerCount += 1
     self.Functions.UpdatePlayerData()
     Player(self.PlayerData.source).state:set('loadInventory', true, true)
+    Player(self.PlayerData.source).state:set('isLoggedIn', true, true)
     TriggerEvent('QBCore:Server:PlayerLoaded', self)
   end
 
@@ -1013,7 +1015,7 @@ function Save(source)
     })
   end)
   assert(GetResourceState('qb-inventory') ~= 'started', 'qb-inventory is not compatible with qbx_core. use ox_inventory instead')
-  lib.print.verbose(('%s PLAYER SAVED!'):format(playerData.name))
+  lib.print.warn(('%s PLAYER SAVED!'):format(playerData.name))
 end
 
 exports('Save', Save)
@@ -1032,7 +1034,7 @@ function SaveOffline(playerData)
     })
   end)
   assert(GetResourceState('qb-inventory') ~= 'started', 'qb-inventory is not compatible with qbx_core. use ox_inventory instead')
-  lib.print.verbose(('%s OFFLINE PLAYER SAVED!'):format(playerData.name))
+  lib.print.warn(('%s OFFLINE PLAYER SAVED!'):format(playerData.name))
 end
 
 exports('SaveOffline', SaveOffline)
