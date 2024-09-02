@@ -75,12 +75,6 @@ local function upsertPlayerEntity(request)
   })
 end
 
----@param citizenId string
----@return PlayerSkin?
-local function fetchPlayerSkin(citizenId)
-  return MySQL.single.await('SELECT * FROM playerskins WHERE citizenid = ? AND active = 1', {citizenId})
-end
-
 local function convertPosition(position)
   local pos = json.decode(position)
   local actualPos = (not pos.x or not pos.y or not pos.z) and defaultSpawn or pos
@@ -317,7 +311,6 @@ return {
   fetchBan = fetchBan,
   deleteBan = deleteBan,
   upsertPlayerEntity = upsertPlayerEntity,
-  fetchPlayerSkin = fetchPlayerSkin,
   fetchPlayerEntity = fetchPlayerEntity,
   fetchAllPlayerEntities = fetchAllPlayerEntities,
   deletePlayer = deletePlayer,

@@ -16,12 +16,7 @@ lib.callback.register('qbx_core:server:getCharacters', function(source)
   return storage.fetchAllPlayerEntities(license2, license), getAllowedAmountOfCharacters(license2, license)
 end)
 
-lib.callback.register('qbx_core:server:getPreviewPedData', function(_, citizenId)
-  local ped = storage.fetchPlayerSkin(citizenId)
-  if not ped then return end
 
-  return ped.skin, ped.model and joaat(ped.model)
-end)
 
 lib.callback.register('qbx_core:server:loadCharacter', function(source, citizenId)
   local success = Login(source, citizenId)

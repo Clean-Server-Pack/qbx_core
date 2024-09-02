@@ -62,6 +62,7 @@ return {
   characterDataTables = {
     {'player_groups', 'citizenid'},
     {'players', 'citizenid'},
+    {'playerskins', 'citizenid'},
   }, -- Rows to be deleted when the character is deleted
 
   server = {

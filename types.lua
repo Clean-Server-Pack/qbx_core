@@ -86,7 +86,6 @@
 ---@field fetchBan fun(request: GetBanRequest): BanEntity?
 ---@field deleteBan fun(request: GetBanRequest)
 ---@field upsertPlayerEntity fun(request: UpsertPlayerRequest)
----@field fetchPlayerSkin fun(citizenId: string): PlayerSkin?
 ---@field fetchPlayerEntity fun(citizenId: string): PlayerEntity?
 ---@field fetchAllPlayerEntities fun(license2: string, license?: string): PlayerEntity[]
 ---@field deletePlayer fun(citizenId: string): boolean success
