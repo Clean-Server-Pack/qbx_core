@@ -15,7 +15,6 @@ Want to know more? View our [documentation](https://qbox-project.github.io/)
 - **Bridge layer provides Backwards compatibility with Most QB Resources with 0 effort required**
 - Built-in multicharacter
 - Built-in multi-job/gang
-- Built-in queue system for full servers
 - Persistent player vehicles
 - Export based API to read/write core data
 

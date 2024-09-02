@@ -965,7 +965,6 @@ function CreatePlayer(playerData, Offline)
   end)
 
   if not self.Offline then
-    print(('Player %s has been created'):format(self.PlayerData.name, self.PlayerData.source))
     QBX.Players[self.PlayerData.source] = self
     local ped = GetPlayerPed(self.PlayerData.source)
     lib.callback.await('qbx_core:client:setHealth', self.PlayerData.source, self.PlayerData.metadata.health)
@@ -976,6 +975,7 @@ function CreatePlayer(playerData, Offline)
     Player(self.PlayerData.source).state:set('loadInventory', true, true)
     Player(self.PlayerData.source).state:set('isLoggedIn', true, true)
     TriggerEvent('QBCore:Server:PlayerLoaded', self)
+    print(('Player %s has been created with source %s'):format(self.PlayerData.name, self.PlayerData.source))
   end
 
   return self

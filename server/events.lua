@@ -4,7 +4,7 @@ local sharedConfig = require 'config.shared'
 local serverName = sharedConfig.serverName
 
 local logger = require 'modules.logger'
-local queue = require 'server.queue'
+
 
 -- Event Handler
 
@@ -22,9 +22,6 @@ AddEventHandler('playerJoining', function()
   local src = source --[[@as string]]
   local license = GetPlayerIdentifierByType(src, sharedConfig.licenseType2) or GetPlayerIdentifierByType(src, sharedConfig.licenseType)
   if not license then return end
-  if queue then
-    queue.removePlayerJoining(license)
-  end
   if not serverConfig.checkDuplicateLicense then return end
   if usedLicenses[license] then
     Wait(0) -- mandatory wait for the drop reason to show up
@@ -121,11 +118,9 @@ local function onPlayerConnecting(name, _, deferrals)
     -- Mandatory wait
     Wait(0)
 
-    if queue then
-      queue.awaitPlayerQueue(src --[[@as Source]], license, deferrals)
-    else
-      deferrals.done()
-    end
+
+    deferrals.done()
+    
   end, onError):next(function() end, onError)
 
   -- if conducting db checks for too long then raise error
