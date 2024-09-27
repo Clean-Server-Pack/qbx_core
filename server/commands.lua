@@ -303,6 +303,38 @@ lib.addCommand('removejob', {
   assert(success, json.encode(errorResult))
 end)
 
+lib.addCommand('revive',{
+  help = 'Revive a player',
+  params = {
+    { name = 'id', help = 'Player ID', type = 'playerId' }
+  },
+  restricted = 'group.admin'
+}, function(source, args)
+  print(json.encode(args))
+  if not args.id or args.id == 'me' then args.id = source end
+  Player(args.id).state.hunger = 100
+  Player(args.id).state.thirst = 100
+
+  local ply = GetPlayer(args.id)
+  if not ply then 
+    Notify(source, 'Player not online', 'error')
+    return 
+  end 
+
+  ply.Functions.SetMetaData('isDead', false)
+  ply.Functions.SetMetaData('inlaststand', false)
+  ply.Functions.SetMetaData('isCuffed', false)
+
+  ply.Functions.SetMetaData('hunger', 100)
+  ply.Functions.SetMetaData('thirst', 100)
+
+  TriggerClientEvent('qbx_core:revivePlayer', args.id)
+end)
+
+
+
+
+
 lib.addCommand('gang', {
   help = locale('command.gang.help')
 }, function(source)

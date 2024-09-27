@@ -975,7 +975,7 @@ function CreatePlayer(playerData, Offline)
     Player(self.PlayerData.source).state:set('loadInventory', true, true)
     Player(self.PlayerData.source).state:set('isLoggedIn', true, true)
     TriggerEvent('QBCore:Server:PlayerLoaded', self)
-    print(('Player %s has been created with source %s'):format(self.PlayerData.name, self.PlayerData.source))
+
   end
 
   return self

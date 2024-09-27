@@ -66,3 +66,25 @@ function GetGroups()
 end
 
 exports('GetGroups', GetGroups)
+
+
+RegisterNetEvent('qbx_core:revivePlayer', function()
+  local playerState = LocalPlayer.state
+  local pos = GetEntityCoords(cache.ped, true)
+  NetworkResurrectLocalPlayer(pos.x, pos.y, pos.z, GetEntityHeading(cache.ped), true, false)
+  playerState:set('isDead', false, true)
+  SetEntityInvincible(cache.ped, false)
+  SetEntityMaxHealth(cache.ped, 200)
+  SetEntityHealth(cache.ped, 200)
+  ClearPedBloodDamage(cache.ped)
+  SetPlayerSprint(cache.playerId, true)
+  ResetPedMovementClipset(cache.ped, 0.0)
+  TriggerServerEvent('hud:server:RelieveStress', 100)
+  lib.notify({
+    title = 'Revived',
+    description = 'You have been revived.',
+    type = 'inform',
+  })
+  LocalPlayer.state.invBusy = false
+end)
+
