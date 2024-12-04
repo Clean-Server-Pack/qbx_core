@@ -375,7 +375,7 @@ function Notify(source, text, notifyType, duration, subTitle, notifyPosition, no
   end
   local position = notifyPosition or 'top-right'
 
-  TriggerClientEvent('ox_lib:notify', source, {
+  TriggerClientEvent('clean_lib:notify', source, {
     id = title,
     title = title,
     description = description,
