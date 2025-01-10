@@ -31,7 +31,6 @@
 ---@field SetPlayerData fun(key: string, val: any)
 ---@field SetMetaData fun(meta: string, val: any)
 ---@field GetMetaData fun(meta: string): any
----@field AddJobReputation fun(amount: number)
 ---@field AddMoney fun(moneytype: MoneyType, amount: number, reason?: string): boolean
 ---@field RemoveMoney fun(moneytype: MoneyType, amount: number, reason?: string): boolean
 ---@field SetMoney fun(moneytype: MoneyType, amount: number, reason?: string): boolean
@@ -148,8 +147,6 @@
 ---@field inlaststand boolean
 ---@field ishandcuffed boolean
 ---@field tracker boolean
----@field injail number time in minutes
----@field jailitems table TODO: expand
 ---@field status table TODO: expand
 ---@field phone {background: any, profilepicture: any} TODO: figure out more specific types
 ---@field bloodtype BloodType

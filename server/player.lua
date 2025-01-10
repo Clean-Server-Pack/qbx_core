@@ -415,6 +415,11 @@ end
 
 exports('RemovePlayerFromGang', removePlayerFromGang)
 
+--- Phone Shop 
+--- Buy Contract | Buy Phone 
+
+
+
 ---@param source? integer if player is online
 ---@param playerData? PlayerEntity|PlayerData
 ---@return Player player
@@ -438,70 +443,40 @@ function CheckPlayerData(source, playerData)
   end
 
   -- Charinfo
-  playerData.charinfo = playerData.charinfo or {}
-  playerData.charinfo.firstname = playerData.charinfo.firstname or 'Firstname'
-  playerData.charinfo.lastname = playerData.charinfo.lastname or 'Lastname'
-  playerData.charinfo.birthdate = playerData.charinfo.birthdate or '00-00-0000'
-  playerData.charinfo.gender = playerData.charinfo.gender or 0
-  playerData.charinfo.backstory = playerData.charinfo.backstory or 'placeholder backstory'
+  playerData.charinfo             = playerData.charinfo or {}
+  playerData.charinfo.firstname   = playerData.charinfo.firstname or 'Firstname'
+  playerData.charinfo.lastname    = playerData.charinfo.lastname or 'Lastname'
+  playerData.charinfo.birthdate   = playerData.charinfo.birthdate or '00-00-0000'
+  playerData.charinfo.gender      = playerData.charinfo.gender or 0
+  playerData.charinfo.backstory   = playerData.charinfo.backstory or 'placeholder backstory'
   playerData.charinfo.nationality = playerData.charinfo.nationality or 'USA'
-  playerData.charinfo.phone = playerData.charinfo.phone or GenerateUniqueIdentifier('PhoneNumber')
-  playerData.charinfo.account = playerData.charinfo.account or GenerateUniqueIdentifier('AccountNumber')
-  playerData.charinfo.cid = playerData.charinfo.cid or playerData.cid
+  playerData.charinfo.phone       = playerData.charinfo.phone or GenerateUniqueIdentifier('PhoneNumber')
+  playerData.charinfo.account     = playerData.charinfo.account or GenerateUniqueIdentifier('AccountNumber')
+  playerData.charinfo.cid         = playerData.charinfo.cid or playerData.cid
   -- Metadata
-  playerData.metadata = playerData.metadata or {}
-  playerData.metadata.health = playerData.metadata.health or 200
-  playerData.metadata.hunger = playerData.metadata.hunger or 100
-  playerData.metadata.thirst = playerData.metadata.thirst or 100
+  playerData.metadata             = playerData.metadata or {}
+  playerData.metadata.health      = playerData.metadata.health or 200
+  playerData.metadata.armor       = playerData.metadata.armor  or 0
+  playerData.metadata.hunger      = playerData.metadata.hunger or 100
+  playerData.metadata.thirst      = playerData.metadata.thirst or 100
+
   playerData.metadata.stress = playerData.metadata.stress or 0
   if playerState then
     playerState:set('hunger', playerData.metadata.hunger, true)
     playerState:set('thirst', playerData.metadata.thirst, true)
     playerState:set('stress', playerData.metadata.stress, true)
   end
-
+  
+  playerData.metadata.fingerprint = playerData.metadata.fingerprint or GenerateUniqueIdentifier('FingerId')
   playerData.metadata.isdead = playerData.metadata.isdead or false
   playerData.metadata.inlaststand = playerData.metadata.inlaststand or false
-  playerData.metadata.armor = playerData.metadata.armor or 0
-  playerData.metadata.ishandcuffed = playerData.metadata.ishandcuffed or false
-  playerData.metadata.tracker = playerData.metadata.tracker or false
-  playerData.metadata.injail = playerData.metadata.injail or 0
-  playerData.metadata.jailitems = playerData.metadata.jailitems or {}
-  playerData.metadata.status = playerData.metadata.status or {}
-  playerData.metadata.phone = playerData.metadata.phone or {}
+
+  playerData.metadata.status    = playerData.metadata.status or {}
   playerData.metadata.bloodtype = playerData.metadata.bloodtype or config.player.bloodTypes[math.random(1, #config.player.bloodTypes)]
-  playerData.metadata.dealerrep = playerData.metadata.dealerrep or 0
-  playerData.metadata.craftingrep = playerData.metadata.craftingrep or 0
-  playerData.metadata.attachmentcraftingrep = playerData.metadata.attachmentcraftingrep or 0
-  playerData.metadata.currentapartment = playerData.metadata.currentapartment or nil
-  playerData.metadata.jobrep = playerData.metadata.jobrep or {}
-  playerData.metadata.jobrep.tow = playerData.metadata.jobrep.tow or 0
-  playerData.metadata.jobrep.trucker = playerData.metadata.jobrep.trucker or 0
-  playerData.metadata.jobrep.taxi = playerData.metadata.jobrep.taxi or 0
-  playerData.metadata.jobrep.hotdog = playerData.metadata.jobrep.hotdog or 0
-  playerData.metadata.callsign = playerData.metadata.callsign or 'NO CALLSIGN'
-  playerData.metadata.fingerprint = playerData.metadata.fingerprint or GenerateUniqueIdentifier('FingerId')
-  playerData.metadata.walletid = playerData.metadata.walletid or GenerateUniqueIdentifier('WalletId')
-  playerData.metadata.criminalrecord = playerData.metadata.criminalrecord or {
-    hasRecord = false,
-    date = nil
-  }
-  playerData.metadata.licences = playerData.metadata.licences or {
-    id = true,
-    driver = true,
-    weapon = false,
-  }
-  playerData.metadata.inside = playerData.metadata.inside or {
-    house = nil,
-    apartment = {
-      apartmentType = nil,
-      apartmentId = nil,
-    }
-  }
-  playerData.metadata.phonedata = playerData.metadata.phonedata or {
-    SerialNumber = GenerateUniqueIdentifier('SerialNumber'),
-    InstalledApps = {},
-  }
+  playerData.metadata.licences  = playerData.metadata.licences or {}
+
+
+
   local jobs, gangs = storage.fetchPlayerGroups(playerData.citizenid)
 
   local job = GetJob(playerData.job?.name) or GetJob('unemployed')
@@ -509,7 +484,7 @@ function CheckPlayerData(source, playerData)
   local jobGrade = GetJob(playerData.job?.name) and playerData.job.grade.level or 0
 
   playerData.job = {
-    name = playerData.job?.name or 'unemployed',
+    name  = playerData.job?.name or 'unemployed',
     label = job.label,
     payment = job.grades[jobGrade].payment or 0,
     type = job.type,
@@ -689,14 +664,6 @@ function CreatePlayer(playerData, Offline)
   function self.Functions.GetMetaData(meta)
     if not meta or type(meta) ~= 'string' then return end
     return self.PlayerData.metadata[meta]
-  end
-
-  ---@param amount number
-  function self.Functions.AddJobReputation(amount)
-    if not amount then return end
-    amount = tonumber(amount) --[[@as number]]
-    self.PlayerData.metadata.jobrep[self.PlayerData.job.name] = self.PlayerData.metadata.jobrep[self.PlayerData.job.name] + amount
-    self.Functions.UpdatePlayerData()
   end
 
   ---@param moneytype MoneyType
