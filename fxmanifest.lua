@@ -14,7 +14,6 @@ shared_scripts {
   'modules/lib.lua',
   'shared/locale.lua',
   'shared/functions.lua',
-  'clean/**/shared/*.lua',
 }
 
 client_scripts {
@@ -26,7 +25,6 @@ client_scripts {
   'client/character.lua',
   'client/discord.lua',
   'bridge/qb/client/main.lua',
-  'clean/**/client/*.lua',
 }
 
 server_scripts {
@@ -40,7 +38,6 @@ server_scripts {
   'server/loops.lua',
   'server/character.lua',
   'bridge/qb/server/main.lua',
-  'clean/**/server/*.lua',
 }
 
 files {
