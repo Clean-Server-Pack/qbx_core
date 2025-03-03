@@ -666,12 +666,10 @@ function CreatePlayer(playerData, Offline)
   ---@param direction boolean
   ---@param reason? string
   local function emitMoneyEvents(moneytype, amount, actionType, direction, reason)
-    TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, actionType == 'set' and math.abs(amount) or amount, direction)
     TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, actionType, reason)
     TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, actionType, reason)
-    if moneytype == 'bank' and actionType == 'remove' then
-      TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
-    end
+    print('EVENT: OnMoneyChange', self.PlayerData.source, moneytype, amount, actionType, reason)
+  
   end
 
   ---@param moneytype MoneyType
